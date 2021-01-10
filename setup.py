@@ -1,17 +1,20 @@
-from distutils.core import setup
+from setuptools import setup
+with open('README.md') as f:
+    long_description = f.read()
 setup(
     name='bb_logger',
     packages=['bb_logger'],
-    version='0.1',
+    version='0.1.2',
     # Chose a license from here:
     # https://help.github.com/articles/licensing-a-repository
     license='MIT',
     description='setup logger bb',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     author='le du',
     author_email='dulx96@gmail.com',
     # Provide either the link to your github or to your website
     url='https://github.com/dulx96/bb_logger.git',
-    download_url='https://github.com/dulx96/bb_logger/archive/0.1.tar.gz',
     keywords=['BB', 'LOGGER', 'LOGGING'],
     install_requires=[],
     classifiers=[
