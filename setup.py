@@ -8,11 +8,10 @@ setup(
     license='MIT',
     description='setup logger bb',
     author='le du',
-    author_email='dulx96@gmail',
+    author_email='dulx96@gmail.com',
     # Provide either the link to your github or to your website
     url='https://github.com/dulx96/bb_logger.git',
-    download_url='https://github.com/user/reponame/archive/v_01.tar.gz',
-        # I explain this later on
+    download_url='https://github.com/dulx96/bb_logger/archive/0.1.tar.gz',
     keywords=['BB', 'LOGGER', 'LOGGING'],
     install_requires=[],
     classifiers=[
@@ -21,7 +20,7 @@ setup(
         # Define that your audience are developers
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
-        'License :: OSI Approved :: MIT License',   # Again, pick a license
+        'License :: OSI Approved :: MIT License',
         'Programming Language :: Python :: 3'
     ],
 )
