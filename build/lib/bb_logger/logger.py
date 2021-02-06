@@ -42,8 +42,13 @@ BASE_FORMAT = '[%(levelname)s]'
 DEFAULT_FORMAT = BASE_FORMAT + ' %(message)s'
 
 
-def setup_logging(*args, extend_format: str = None, **kwargs):
+def setup_logging(
+    *args,
+    default_level=logging.WARNING,
+    extend_format: str = None,
+        **kwargs):
     """clean all default lambda logger handler, and setup bb logger \n
+    default_level = logging.{INFO|WARNING|..} https://docs.python.org/3/library/logging.html#levels \n
     BASE_FORMAT = '[%(levelname)s]' \n
     DEFAULT_FORMAT = BASE_FORMAT + ' %(message)s'\n
     if extend_format is specified, FORMAT will be : BASE_FORMAT + '\\t'+ extend_format \n
@@ -56,7 +61,7 @@ def setup_logging(*args, extend_format: str = None, **kwargs):
     format = DEFAULT_FORMAT
     if extend_format:
         format = BASE_FORMAT + '\t' + extend_format
-    logging.basicConfig(format=format)
+    logging.basicConfig(format=format, level=default_level)
     # add custom level
     _add_logger_level('NOTI', logging.WARNING + 5)
 

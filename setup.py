@@ -4,7 +4,7 @@ with open('README.md') as f:
 setup(
     name='bb_logger',
     packages=['bb_logger'],
-    version='0.1.2',
+    version='0.1.3',
     # Chose a license from here:
     # https://help.github.com/articles/licensing-a-repository
     license='MIT',
