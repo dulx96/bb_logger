@@ -14,7 +14,9 @@
 
 > **extend_format** (str, optional): custom extend format. Defaults to None.
 
-> **lambda_exec_error_log** (bool, optional): log with critical level for lambda raise exception. Defaults to True. on ly with decorator **setup_logging_dec()**
+> **lambda_exec_error_log** (bool, optional): log with critical level for lambda raise exception. Defaults to True. only with decorator **setup_logging_dec()**
+
+> **default_noti_level** (int, optional): all log from this level will be noticed if no arguments are provided. Defaults to logging.ERROR
 
 > **force_noti_level** (int, optional): force all log with this level to be noticed. Defaults to logging.ERROR.
 
