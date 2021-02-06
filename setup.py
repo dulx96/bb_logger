@@ -1,10 +1,12 @@
 from setuptools import setup
 with open('README.md') as f:
     long_description = f.read()
+
+# https://github.com/bast/pypi-howto
 setup(
     name='bb_logger',
     packages=['bb_logger'],
-    version='0.1.3',
+    version='0.2.0',
     # Chose a license from here:
     # https://help.github.com/articles/licensing-a-repository
     license='MIT',
