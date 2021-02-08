@@ -66,7 +66,7 @@ def setup_logging(
     # noti
     class NotiFormatter(logging.Formatter):
         def format(self, record):
-            if(record.args and 'noti' in record.args.keys()):
+            if(record.args and isinstance(record.args, dict) and 'noti' in record.args.keys()):
                 noti = record.args.get("noti")
                 record.noti_status = "NOTI" if noti else 'NOT_NOTI'
             else:

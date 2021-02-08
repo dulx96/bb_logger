@@ -45,7 +45,8 @@ def setup_logging(
     *args,
     default_level=logging.WARNING,
     extend_format: str = None,
-    force_noti_level=logging.ERROR,
+    default_noti_level=logging.ERROR,
+    force_noti_level=logging.CRITICAL,
         **kwargs):
     """clean all default lambda logger handler, and setup bb logger \n
     default_level = logging.{INFO|WARNING|..} https://docs.python.org/3/library/logging.html#levels \n
@@ -53,8 +54,10 @@ def setup_logging(
     DEFAULT_FORMAT = BASE_FORMAT + ' %(message)s'\n
     if extend_format is specified, FORMAT will be : BASE_FORMAT + '\\t'+ extend_format \n
     else DEFAULT_FORMAT wil be used \n
+    default_noti_level= logging.ERROR \n,
+    all log from this level will be noticed if no arguments are provided
     force_noti_level = logging.{INFO|WARNING|..} \n
-    force all log with this level be noticed
+    force all log with this level be noticed, ignore arguments
     """
 
     remove_all_handlers()
@@ -63,11 +66,15 @@ def setup_logging(
     # noti
     class NotiFormatter(logging.Formatter):
         def format(self, record):
-            record.noti_status = "NOT_NOTI" if record.levelno < force_noti_level else "NOTI"
-            if(record.args):
-                noti = record.args.get("noti", False)
-                if noti:
-                    record.noti_status = "NOTI"
+            if(record.args and 'noti' in record.args.keys()):
+                noti = record.args.get("noti")
+                record.noti_status = "NOTI" if noti else 'NOT_NOTI'
+            else:
+                record.noti_status = 'NOTI' if record.levelno >= default_noti_level else 'NOT_NOTI'
+
+            if record.levelno >= force_noti_level:
+                record.noti_status = 'NOTI'
+
             return super().format(record)
     # setup format
     format = DEFAULT_FORMAT
@@ -88,7 +95,8 @@ def setup_logging_dec(*args,
                       default_level=logging.WARNING,
                       extend_format: str = None,
                       lambda_exec_error_log=True,
-                      force_noti_level=logging.ERROR,
+                      default_noti_level=logging.ERROR,
+                      force_noti_level=logging.CRITICAL,
                       **kwargs):
     """decorator setup logging for lambda
 
@@ -96,13 +104,15 @@ def setup_logging_dec(*args,
         default_level (int, optional): min log level. Defaults to logging.WARNING.
         extend_format (str, optional): custom extend format. Defaults to None.
         lambda_exec_error_log (bool, optional): log with critical level for lambda raise exception. Defaults to True.
-        force_noti_level (int, optional): force all log with this level to be noticed. Defaults to logging.ERROR.
+        default_noti_level(int, optional): all log from this level will be noticed if no arguments are provided. Defaults to logging.ERROR.
+        force_noti_level (int, optional): force all log with this level to be noticed. Defaults to logging.CRITICAL.
     """
     def inner(func):
         def wrapper(*args, **kwargs):
             setup_logging(
                 default_level=default_level,
                 extend_format=extend_format,
+                default_noti_level=default_noti_level,
                 force_noti_level=force_noti_level)
             try:
                 func(*args, **kwargs)
