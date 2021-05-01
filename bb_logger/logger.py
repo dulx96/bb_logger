@@ -88,7 +88,7 @@ def setup_logging(
     # _add_logger_level('NOTI', logging.WARNING + 5) # user info and force
     # noti instead
 
-    # set log level
+    # set log level ()
 
 
 def setup_logging_dec(*args,
@@ -115,7 +115,7 @@ def setup_logging_dec(*args,
                 default_noti_level=default_noti_level,
                 force_noti_level=force_noti_level)
             try:
-                func(*args, **kwargs)
+                return func(*args, **kwargs)
             except Exception as e:
                 if lambda_exec_error_log:
                     logging.critical(str(e), exc_info=True)
