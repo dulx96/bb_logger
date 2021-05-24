@@ -1,4 +1,5 @@
 import logging
+from .slack.slack import push_noti
 
 
 def _add_logger_level(levelname, level, *, func_name=None):
@@ -47,7 +48,8 @@ def setup_logging(
     extend_format: str = None,
     default_noti_level=logging.ERROR,
     force_noti_level=logging.CRITICAL,
-        **kwargs):
+    slack: dict = None,
+        ** kwargs):
     """clean all default lambda logger handler, and setup bb logger \n
     default_level = logging.{INFO|WARNING|..} https://docs.python.org/3/library/logging.html#levels \n
     BASE_FORMAT = '[%(levelname)s]' \n
@@ -62,8 +64,10 @@ def setup_logging(
 
     remove_all_handlers()
 
+    handlers = []
     # add logic handler
     # noti
+
     class NotiFormatter(logging.Formatter):
         def format(self, record):
             if(record.args and isinstance(record.args, dict) and 'noti' in record.args.keys()):
@@ -82,13 +86,25 @@ def setup_logging(
         format = BASE_FORMAT + '\t' + extend_format
     noti_ch = logging.StreamHandler()
     noti_ch.setFormatter(NotiFormatter(format))
-    logging.basicConfig(level=default_level, handlers=[noti_ch])
+    handlers.append(noti_ch)
 
-    # add custom level
-    # _add_logger_level('NOTI', logging.WARNING + 5) # user info and force
-    # noti instead
+    # * add slack handler
+    class SlackerLogHandler(logging.Handler):
+        def __init__(self) -> None:
+            super().__init__()
 
-    # set log level ()
+        def emit(self, record: logging.LogRecord):
+            if record.noti_status == 'NOTI':
+                event = dict()
+                event['level'] = record.levelname
+                event['message'] = record.message
+                push_noti(event=event, slack_info=slack)
+    if slack:
+        slack_handler = SlackerLogHandler()
+        handlers.append(slack_handler)
+
+    # * config
+    logging.basicConfig(level=default_level, handlers=handlers)
 
 
 def setup_logging_dec(*args,

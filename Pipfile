@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 pytest = "*"
+slack-sdk = "*"
 
 [dev-packages]
 flake8 = "*"
