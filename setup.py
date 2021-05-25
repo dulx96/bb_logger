@@ -6,7 +6,7 @@ with open('README.md') as f:
 setup(
     name='bb_logger',
     packages=['bb_logger'],
-    version='0.3.0',
+    version='0.3.3',
     # Chose a license from here:
     # https://help.github.com/articles/licensing-a-repository
     license='MIT',
@@ -18,7 +18,7 @@ setup(
     # Provide either the link to your github or to your website
     url='https://github.com/dulx96/bb_logger.git',
     keywords=['BB', 'LOGGER', 'LOGGING'],
-    install_requires=[],
+    install_requires=['slack_sdk>=3.5.1'],
     classifiers=[
         # Chose either "3 - Alpha", "4 - Beta" or "5 - Production/Stable" as
         'Development Status :: 3 - Alpha',

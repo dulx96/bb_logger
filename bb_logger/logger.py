@@ -1,5 +1,5 @@
 import logging
-from .slack.slack import push_noti
+from .slack import push_noti
 
 
 def _add_logger_level(levelname, level, *, func_name=None):
@@ -113,6 +113,7 @@ def setup_logging_dec(*args,
                       lambda_exec_error_log=True,
                       default_noti_level=logging.ERROR,
                       force_noti_level=logging.CRITICAL,
+                      slack: dict = None,
                       **kwargs):
     """decorator setup logging for lambda
 
@@ -129,7 +130,8 @@ def setup_logging_dec(*args,
                 default_level=default_level,
                 extend_format=extend_format,
                 default_noti_level=default_noti_level,
-                force_noti_level=force_noti_level)
+                force_noti_level=force_noti_level,
+                slack=slack)
             try:
                 return func(*args, **kwargs)
             except Exception as e:

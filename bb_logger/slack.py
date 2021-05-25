@@ -2,7 +2,7 @@ import os
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import logging
-from ..constants.log import LOG_LEVEL
+from .constant import LOG_LEVEL
 from datetime import datetime
 
 
